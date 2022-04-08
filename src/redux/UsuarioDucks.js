@@ -7,7 +7,6 @@ const dataInicial = {
 
 const LOADING = 'LOADING'
 const MENSAJE = "MENSAJE"
-const USUARIO_ERROR = 'USUARIO_ERROR'
 const OBTENER_USUARIO = 'OBTENER_USUARIO'
 const ELIMINAR_USUARIO = 'ELIMINAR_USUARIO'
 
@@ -19,9 +18,6 @@ export default function usuariosReducer(state= dataInicial, action){
 
         case MENSAJE:
             return {...state, msg: action.payload}
-
-        case USUARIO_ERROR:
-            return { ...dataInicial }
     
         case OBTENER_USUARIO:
             return {...state, user: action.payload}
