@@ -1,18 +1,20 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { obtenerDatos, eliminarUsuario } from '../redux/UsuarioDucks'
+import { obtenerUsuarios, obtenerUsuariosSiguientes, obtenerUsuariosAnterior, eliminarUsuario } from '../redux/UsuarioDucks'
 import { Link } from 'react-router-dom'
 import './Usuario.css'
 
 const Usuario = () => {
 
     const dispatch = useDispatch()
-    const usuarios = useSelector(item => item?.usuario?.user?.results)
-    const mensaje = useSelector(item => item?.usuario?.msg)
+    const usuarios = useSelector(store => store?.usuario?.results)
+    const next = useSelector(store => store?.usuario?.next)
+    const mensaje = useSelector(store => store?.usuario?.msg)
+    const previous = useSelector(store => store?.usuario?.previous)
 
     useEffect(()=> {
         const obtenerData = ()=>{
-            dispatch(obtenerDatos())
+            dispatch(obtenerUsuarios())
         }
         obtenerData()
     }, [dispatch])
@@ -62,13 +64,18 @@ const Usuario = () => {
                             <td>{item.color_favorito}</td>
                             <td>
                             <button onClick={()=> eliminar(item.id)} className="btn btn-danger" style={{marginLeft: '4px'}} ><i className="fas fa-trash" style={{fontSize:'10px'}}></i></button>
-                            <Link><button className="btn btn-primary" style={{marginLeft: '4px'}}><i className='fas fa-edit' style={{fontSize:'10px'}} title={item.id}></i></button></Link>
+                            <Link to={`/user/${item.id}/`}><button className="btn btn-primary" style={{marginLeft: '4px'}}><i className='fas fa-edit' style={{fontSize:'10px'}} title={item.id}></i></button></Link>
                             </td>
                         </tr>
                     ))
                 }
             </tbody>
         </table>
+        <div className='div_button'>
+            { previous && (<button className='btn btn-dark ml-2' onClick={()=> dispatch(obtenerUsuariosAnterior()) }>Anterior</button>) }
+            { usuarios.length == 0 && ( <button className='btn btn-dark ml-2' onClick={()=> dispatch(obtenerUsuarios()) }>Obtener datos</button> ) }
+            { next && (<button className='btn btn-dark ml-2' onClick={()=> dispatch(obtenerUsuariosSiguientes()) }>Siguiente</button>)}
+       </div>
       </Fragment>
   ) : 
   null

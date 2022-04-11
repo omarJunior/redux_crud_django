@@ -7,6 +7,7 @@ import {
 
 } from 'react-router-dom'
 import Usuario from './Components/Usuario';
+import Detalle from './Components/Detalle';
 
 
 function App({callback}) {
@@ -15,6 +16,7 @@ function App({callback}) {
         <div className='container p-4 ml-5' ref={callback}>
           <Switch>
             <Route component={Usuario} path="/user" exact></Route>
+            <Route component={Detalle} path="/user/:id" exact></Route>
             <Redirect to="/user"/>
           </Switch>
         </div>
